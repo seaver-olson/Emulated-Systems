@@ -14,7 +14,9 @@
 #define R2 (BASE_ADDRESS + 0x1004)
 #define R3 (BASE_ADDRESS + 0x1008)
 
-uint8_t memory[MEMORY_SIZE];
+extern uint8_t memory[MEMORY_SIZE];
 
 uint32_t readRegister(uint32_t address);
 void writeRegister(uint32_t address, uint32_t value);
+void printRegister(uint32_t address);
+void printRegisters();
