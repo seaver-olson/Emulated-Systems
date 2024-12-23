@@ -1,26 +1,15 @@
 #include "register.h"
 
-uint32_t memory[4096];
-
 uint32_t readRegister(uint32_t address){
-	if (address < REG_COUNT){
-		return registers[address];
-	} else {
-		printf("Error: Invalid Register\n");
-		return 0;
-	}
+	return *((uint8_t *)&memory[address]);
 }
 
 void writeRegister(uint32_t address, uint32_t value){
-	if (address < REG_COUNT){
-		registers[address] = value;
-	} else {
-		printf("Error: Invalid Register\n");
-	}
+	*((uint8_t *)&memory[address]) = value;
 }
 
 int main(){
-	writeRegister(1000, 50);
-	printf("%s", (char *)readRegister(1000));
+	writeRegister(TIMER_CTRL, 0x5);
+	printf("%d\n", readRegister(TIMER_CTRL));
 	return 0;
 }
