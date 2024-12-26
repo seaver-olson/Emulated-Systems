@@ -19,6 +19,14 @@ void wait_cycles(unsigned int cycles){
 		asm("nop");
 	}
 }
+
+void wait_msec(unsigned int msec){
+	wait_cycles(msec*500000);
+}
+
+void wait_sec(unsigned int sec){
+	wait_msec(sec*1000);
+}
 void timer_init(){
 	writeRegister(TIMER_CTRL, 0x0);
 	writeRegister(TIMER_COUNT, 0x0);
