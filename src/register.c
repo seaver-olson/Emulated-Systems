@@ -1,17 +1,17 @@
 #include "register.h"
 
-uint8_t memory[MEMORY_SIZE];
+uint32_t memory[MEMORY_SIZE];
 
 uint32_t readRegister(uint32_t address){
-	return *((uint8_t *)&memory[address]);
+	return *((uint32_t *)&memory[address]);
 }
 
 void writeRegister(uint32_t address, uint32_t value){
-	*((uint8_t *)&memory[address]) = value;
+	*((uint32_t *)&memory[address]) = value;
 }
 
 void printRegister(uint32_t address){
-	printf("[REG] %04X : %d\n",address,*((uint8_t *)&memory[address]));
+	printf("[REG] %04X : %d\n",address,*((uint32_t *)&memory[address]));
 }
 
 void printRegisters() {
