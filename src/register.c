@@ -19,3 +19,11 @@ void printRegisters() {
         printf("[REG] %04X : %d\n", i, memory[i]);
     }
 }
+
+void printMemory() {
+    for (uint32_t i = 0; i < MEMORY_SIZE; i += 4) {
+        printf("[MEM] %04X : %d\n", i, memory[i]);
+    }
+}
+
+
