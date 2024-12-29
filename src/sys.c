@@ -2,6 +2,8 @@
 
 int main(){
 	timer_init();
+	
+
 	writeRegister(TIMER_STATUS,1);
 	printRegister(TIMER_STATUS);
 	wait_sec(1);
