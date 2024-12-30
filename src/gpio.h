@@ -10,6 +10,7 @@
 #define TIMER_COMPARE (BASE_ADDRESS + 0x0C)
 #define TIMER_STATUS (BASE_ADDRESS + 0x10)
 #define TIMER_CTRL_ENABLE 0x1
+#define TIMER_COMPARE_STATUS 0x1 //shitty ahh practice but I got confused when i used the timer_ctrl_enable flag for the comapre as well
 
 #define R1 (BASE_ADDRESS + 0x1000)
 #define R2 (BASE_ADDRESS + 0x1004)

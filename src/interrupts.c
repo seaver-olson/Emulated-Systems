@@ -1,11 +1,5 @@
 #include "register.h"
 
-//vector table
-void (*interrupt_vector[2])(void) = {
-    timer_interrupt_handler,
-    gpio_interrupt_handler
-};
-
 void handle_timer(){
 	printf("Timer interrupt occurred! TIMER_COUNT = %d\n", memory[TIMER_COUNT]);
 	//handle the rest later
@@ -14,6 +8,11 @@ void handle_timer(){
 void handle_gpio(){
 	//handle once i set up a gpio shitmissle
 }
+
+void (*interrupt_vector[2])(void) = {
+    handle_timer,
+    handle_gpio
+};
 
 void handle_interrupt(){
 	unsigned int pending = memory[INTERRUPT_PENDING] & memory[INTERRUPT_ENABLE];
