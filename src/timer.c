@@ -5,7 +5,7 @@ void tick(){
 		memory[TIMER_COUNT]++;
 		//add a compare check later
 		if (memory[TIMER_COUNT] == memory[TIMER_COMPARE]){
-			memory[TIMER_STATUS] = 1;
+			memory[INTERRUPT_PENDING] |= INTERRUPT_TIMER;
 		}
 	} else {
 		printf("ERROR Timer not enabled\n");
