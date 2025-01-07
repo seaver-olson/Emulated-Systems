@@ -1,8 +1,8 @@
 #include <stdint.h>
 
-#define MEMORY_SIZE 4096
+#define MEMORY_SIZE 9192
 
-#define BASE_ADDRESS 0x1000
+#define BASE_ADDRESS 0x0000
 #define PROGRAM_COUNTER (BASE_ADDRESS)
 
 #define TIMER_CTRL (BASE_ADDRESS + 0x04)

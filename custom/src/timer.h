@@ -1,7 +1,7 @@
 #include "register.h"
 
 
-void timer_init();
+void init_timer();
 void tick();
 void wait_cycles(unsigned int cycles);
 void* timer_thread();

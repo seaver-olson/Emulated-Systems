@@ -1,12 +1,14 @@
 #include "timer.h"
+#include "interrupts.h"
 #include "uart.h"
 
 int main(){
-	timer_init();
+	init_timer();
+	init_interrupts();
 	writeRegister(TIMER_STATUS,1);
+	printRegister(TIMER_COUNT);
 	while(1){
 		printf("main loop reached\n");
-		wait_sec(1);
 	}
 	return 0;
 }

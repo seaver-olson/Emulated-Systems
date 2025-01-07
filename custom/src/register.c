@@ -26,4 +26,11 @@ void printMemory() {
     }
 }
 
+void exit(int status){
+	printf("Halting system with status %d\n", status);
+	printf("causing error to exit system");
+	volatile int* invalid_pointer = (int*)0xDEADBEEF;
+    	*invalid_pointer = 42;
+}
+
 

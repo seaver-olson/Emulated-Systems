@@ -7,3 +7,4 @@ void writeRegister(uint32_t address, uint32_t value);
 void printRegister(uint32_t address);
 void printRegisters();
 void printMemory();
+void exit(int status);
