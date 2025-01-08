@@ -2,17 +2,27 @@
 
 uint8_t memory[MEMORY_SIZE];
 
-void init_mem() {
+int init_mem() {
     //clear memory
     for (int i = 0; i < MEMORY_SIZE; i++) memory[i] = 0;
     //load fontset
-    load_fontset();
-    printf("Memory initialized\n");
+    if (load_fontset("font/font1.txt") == 1){
+	printf("Error: Could not open font file\n");
+	return 1;
+    }
+    return 0;
 }
 
 int load_fontset(char *fontName){
-    
+   	FILE *font = fopen(fontName, "rb");
+	if (font == NULL){
+		return 1;
+	}
+	fread(memory + 0x50, 1, 80, font);
+	fclose(font);
+	return 0;
 }
+
 void print_mem() {
     for (int i = 0; i < MEMORY_SIZE; i++) {
         if (i % 16 == 0) printf("\n");//print 16 bytes per line
@@ -32,12 +42,3 @@ void print_block(uint16_t addr, int size) {
     printf("\n");
 }
 
-int main(){
-    init_mem();
-    print_mem();
-    write_block(0x200, 0x12);
-    write_block(0x201, 0x34);
-    write_block(0x202, 0x56);
-    print_block(0x200, 3);
-    return 0;
-}
