@@ -15,3 +15,5 @@ void init_mem();
 int load_rom(const char* filename);
 void load_fontset();
 void print_mem();
+void write_block(uint16_t addr, uint8_t val);
+uint8_t read_block(uint16_t addr, uint8_t* buffer, int size);
