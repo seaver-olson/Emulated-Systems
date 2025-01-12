@@ -6,7 +6,7 @@ int init_mem() {
     //clear memory
     for (int i = 0; i < MEMORY_SIZE; i++) memory[i] = 0;
     //load fontset
-    if (load_fontset("font/font1.txt") == 1){
+    if (load_fontset("font/font1.bin") == 1){
 	printf("Error: Could not open font file\n");
 	return 1;
     }
@@ -18,9 +18,18 @@ int load_fontset(char *fontName){
 	if (font == NULL){
 		return 1;
 	}
-	fread(memory + 0x50, 1, 80, font);
+    fread(memory + 0x50, 1, FONT_WIDTH * FONT_HEIGHT, font);
 	fclose(font);
 	return 0;
+}
+
+void display_font(){
+    for (int i = 0; i < FONT_HEIGHT; i++){
+        for (int j = 0; j < FONT_WIDTH; j++){
+            printf("%02x ", memory[0x50 + i * FONT_WIDTH + j]);
+        }
+        printf("\n");
+    }
 }
 
 void print_mem() {

@@ -1,4 +1,4 @@
-#include "mem.h"
+#include "timer.h"
 
 int main(){
     if (init_mem() == 1){
@@ -6,11 +6,9 @@ int main(){
         return 1;
     }
     printf("Memory initialized\n");
-
-    print_mem();
-    write_block(0x200, 0x12);
-    write_block(0x201, 0x34);
-    write_block(0x202, 0x56);
-    print_block(0x200, 3);
+    timer_init();
+    while (1){
+        //main loop
+    }
     return 0;
 }
