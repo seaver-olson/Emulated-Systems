@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "display.h"
 
 int main(){
     if (init_mem() == 1){
@@ -7,8 +8,11 @@ int main(){
     }
     printf("Memory initialized\n");
     timer_init();
+    display_clear();
+    
+    display_print();
     while (1){
-        //main loop
+        
     }
     return 0;
 }
