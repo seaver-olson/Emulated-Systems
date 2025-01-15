@@ -9,7 +9,8 @@ int main(){
     printf("Memory initialized\n");
     timer_init();
     while (1){
-        
-    }
+	usleep(100000);        
+        printf("Timer delay: %d\n", delay_timer);
+	}
     return 0;
 }

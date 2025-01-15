@@ -7,7 +7,9 @@ void *timer_pthread(){
     while (1){
         usleep(16667);
         if (delay_timer > 0) delay_timer--;
+	else delay_timer = 60;
         if (sound_timer > 0) sound_timer--;
+	else sound_timer = 60;
     }
 }
 

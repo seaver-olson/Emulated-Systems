@@ -8,3 +8,4 @@
 extern uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
 
 void display_init();
+void display_close();

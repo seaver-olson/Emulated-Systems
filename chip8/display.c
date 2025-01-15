@@ -1,6 +1,5 @@
 #include "display.h"
 
-uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
 
 void display_init(){
     SDL_Window *window = SDL_CreateWindow("Chip8", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DISPLAY_WIDTH * 10, DISPLAY_HEIGHT * 10, SDL_WINDOW_SHOWN);
@@ -16,5 +15,9 @@ void display_init(){
         SDL_UpdateWindowSurface( window );
         SDL_Delay( 2000 );
     }
+}
+
+void display_close(){
+	SDL_Quit();
 }
 
