@@ -1,5 +1,8 @@
 #include "timer.h"
 
+uint8_t delay_timer;
+uint8_t sound_timer;
+
 void *timer_pthread(){
     while (1){
         usleep(16667);

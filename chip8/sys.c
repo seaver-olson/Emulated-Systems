@@ -8,9 +8,6 @@ int main(){
     }
     printf("Memory initialized\n");
     timer_init();
-    display_clear();
-    
-    display_print();
     while (1){
         
     }
