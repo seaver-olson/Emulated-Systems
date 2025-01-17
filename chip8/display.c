@@ -17,6 +17,15 @@ void display_init(){
     }
 }
 
+int get_next(){
+	//gets next open spot for sprite
+}
+
+void display_letter(char letter){
+	
+
+}
+
 void display_close(){
 	SDL_Quit();
 }

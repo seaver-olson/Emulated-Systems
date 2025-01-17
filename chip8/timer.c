@@ -18,3 +18,8 @@ void timer_init(){
     pthread_create(&timer_thread, NULL, timer_pthread, NULL);
     printf("Timers initialized\n");
 }
+
+void wait_sec(int sec){
+	usleep(1000000 * sec);
+
+}

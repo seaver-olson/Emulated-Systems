@@ -3,4 +3,4 @@
 
 void *timer_pthread();
 void timer_init();
-
+void wait_sec(int sec);

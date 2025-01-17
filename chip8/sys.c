@@ -1,5 +1,6 @@
 #include "timer.h"
 #include "display.h"
+#include "stack.h"
 
 int main(){
     if (init_mem() == 1){
@@ -8,9 +9,11 @@ int main(){
     }
     printf("Memory initialized\n");
     timer_init();
+    stack_init();
+    //display_init();
     while (1){
-	usleep(100000);        
+	wait_sec(5);
         printf("Timer delay: %d\n", delay_timer);
-	}
+    }
     return 0;
 }
