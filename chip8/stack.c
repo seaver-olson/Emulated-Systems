@@ -2,13 +2,14 @@
 
 uint16_t stack[12];
 uint16_t sp;
+uint16_t pc;
 
 void stack_init(){
 	for (int i = 0; i < 12; i++){
 		stack[i] = 0;
 	}
 	sp = -1;
-	
+	pc = 0x200;
 	printf("Stack and Stack Pointer initialized\n");
 }
 
