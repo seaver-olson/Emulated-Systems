@@ -13,6 +13,19 @@ int init_mem() {
     return 0;
 }
 
+int loadrom(char *rom){
+	unsigned char *romBuf = NULL;
+	FILE *file = fopen(rom,"rb");
+	if (file == NULL) return -1;
+	int size = ftell(file);
+	if ((fseek(file, 0, SEEK_END) != 0) || size == -1){
+		fclose(file);
+		return -1;
+	}
+        //toDO
+	return 0;
+}
+
 int load_fontset(char *fontName){
    	FILE *font = fopen(fontName, "rb");
 	if (font == NULL){

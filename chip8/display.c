@@ -1,20 +1,24 @@
 #include "display.h"
 
+static SDL_Window *window = NULL;
+static SDL_Renderer *rdr = NULL;
+static SDL_Texture *txr = NULL;
+
 
 void display_init(){
-    SDL_Window *window = SDL_CreateWindow("Chip8", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DISPLAY_WIDTH * 10, DISPLAY_HEIGHT * 10, SDL_WINDOW_SHOWN);
-    SDL_Surface *screen = NULL;
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
         printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+  	return;
     }
-    else
-    {
-        screen = SDL_GetWindowSurface( window );
-        SDL_FillRect( screen, NULL, SDL_MapRGB( screen->format, 0, 0, 0 ) );
-        SDL_UpdateWindowSurface( window );
-        SDL_Delay( 2000 );
+    SDL_Window *window = SDL_CreateWindow("Chip8", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DISPLAY_WIDTH * 10, DISPLAY_HEIGHT * 10, SDL_WINDOW_SHOWN);
+    rdr = SDL_CreateRenderer(window, -1, 0);
+    txr = SDL_CreateTexture(rdr, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    if (window == NULL || rdr == NULL || txr == NULL){
+	printf("[ERROR IN DISPLAY INIT]\n");
+	return;
     }
+    printf("Display initialized\n");
 }
 
 int get_next(){
