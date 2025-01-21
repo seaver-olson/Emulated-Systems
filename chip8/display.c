@@ -28,6 +28,7 @@ int get_next(){
 }
 
 void display_draw(){
+	if (drawflag){
 	uint32_t screen[DISPLAY_WIDTH*DISPLAY_HEIGHT];
 	memset(screen, 0, (DISPLAY_WIDTH*DISPLAY_HEIGHT)*4);//clear screen
 	for (int x=0;x<DISPLAY_WIDTH;x++){
@@ -37,6 +38,14 @@ void display_draw(){
 			}
 		}
 	}
+	SDL_UpdateTexture(txr, NULL, screen, 64 * sizeof(uint32_t));
+	SDL_Rect position;
+	position.x = 0;
+	position.y = 0;
+	SDL_RenderCopy(rdr, txr, NULL, &position);
+	SDL_RenderPresent(rdr);
+	}
+	drawflag = 0;
 }
 
 void display_close(){

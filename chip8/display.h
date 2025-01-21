@@ -5,6 +5,7 @@
 #define DISPLAY_WIDTH 64
 #define DISPLAY_HEIGHT 32
 
+int drawflag=0;
 extern uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
 
 void display_init();
