@@ -24,6 +24,7 @@ int loadrom(char *rom){
 		return -1;
 	}
 	fread(memory+0x200,sizeof(uint16_t),size,file);
+	printf("ROM successfuly loaded into memory\n");
 	return 0;
 }
 

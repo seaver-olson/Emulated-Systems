@@ -3,7 +3,15 @@
 #include "stack.h"
 
 
-int main(){
+int main(int argc, char ** argv){
+    SDL_Event event;
+    int dead = 0;
+
+    if (argc < 2){
+	printf("please select a rom first\n");
+	return 1;
+    }
+    loadrom(argv[1]);
     if (init_mem() == 1){
         printf("Error: exited memory init early, quitting interpreter\n");
         return 1;
@@ -12,6 +20,20 @@ int main(){
     timer_init();
     stack_init();
     display_init();
+    while (!dead){
+	SDL_PollEvent(&event);
+	switch(event.type){
+		case SDL_QUIT: {
+			dead = 1;
+			break;
+		} case SDL_KEYDOWN: {
+			switch(event.key.keysym.sym){
+				case SDLK_ESCAPE:dead = 1;break;
+				
+			}
+		} 
+	} 
+    }
     return 0;
 }
 

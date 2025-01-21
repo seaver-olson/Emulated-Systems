@@ -16,7 +16,7 @@ extern uint8_t sound_timer;//same as delay but gives a beep when not 0
 extern uint16_t sp;//stack pointer
 
 int init_mem();
-int load_rom(const char* filename);
+int loadrom(char *rom);
 int load_fontset(char *fontName);
 void display_font();
 void print_mem();
