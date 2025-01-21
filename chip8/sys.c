@@ -33,6 +33,8 @@ int main(int argc, char ** argv){
 			}
 		} 
 	} 
+	//execute command
+	display_draw();
     }
     return 0;
 }

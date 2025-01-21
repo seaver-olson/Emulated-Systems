@@ -4,6 +4,7 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *rdr = NULL;
 static SDL_Texture *txr = NULL;
 
+uint8_t display[DISPLAY_WIDTH*DISPLAY_HEIGHT];
 
 void display_init(){
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -26,8 +27,16 @@ int get_next(){
 
 }
 
-void display_letter(char letter){
-	
+void display_draw(){
+	uint32_t screen[DISPLAY_WIDTH*DISPLAY_HEIGHT];
+	memset(screen, 0, (DISPLAY_WIDTH*DISPLAY_HEIGHT)*4);//clear screen
+	for (int x=0;x<DISPLAY_WIDTH;x++){
+		for(int y=0; y<DISPLAY_HEIGHT;y++){
+			if (display[(x) + ((y) * 64)] == 1){
+				screen[(x) + ((y) * 64)] = UINT32_MAX;
+			}
+		}
+	}
 }
 
 void display_close(){
