@@ -10,6 +10,7 @@ int init_mem() {
 	printf("Error: Could not open font file\n");
 	return 1;
     }
+    pc = 0x200;
     return 0;
 }
 
@@ -22,7 +23,7 @@ int loadrom(char *rom){
 		fclose(file);
 		return -1;
 	}
-        //toDO
+	fread(memory+0x200,sizeof(uint16_t),size,file);
 	return 0;
 }
 
