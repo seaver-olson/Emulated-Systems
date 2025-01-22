@@ -2,7 +2,6 @@
 #include "display.h"
 #include "stack.h"
 
-
 int main(int argc, char ** argv){
     SDL_Event event;
     int dead = 0;
@@ -11,7 +10,10 @@ int main(int argc, char ** argv){
 	printf("please select a rom first\n");
 	return 1;
     }
-    loadrom(argv[1]);
+    if (loadrom(argv[1]) != 0){
+	printf("Error: Please check the spelling of your rom file\n");
+	return 1;
+    }
     if (init_mem() == 1){
         printf("Error: exited memory init early, quitting interpreter\n");
         return 1;

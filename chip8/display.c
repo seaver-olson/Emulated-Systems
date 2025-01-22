@@ -5,6 +5,7 @@ static SDL_Renderer *rdr = NULL;
 static SDL_Texture *txr = NULL;
 
 uint8_t display[DISPLAY_WIDTH*DISPLAY_HEIGHT];
+int drawflag = 0;
 
 void display_init(){
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
