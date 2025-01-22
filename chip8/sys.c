@@ -35,7 +35,7 @@ int main(int argc, char ** argv){
 			}
 		} 
 	} 
-	//execute command
+	execute();
 	display_draw();
     }
     return 0;

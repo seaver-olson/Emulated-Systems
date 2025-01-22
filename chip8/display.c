@@ -23,10 +23,6 @@ void display_init(){
     printf("Display initialized\n");
 }
 
-int get_next(){
-	//gets next open spot for sprite
-
-}
 
 void display_draw(){
 	if (drawflag){

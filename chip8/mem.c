@@ -1,6 +1,7 @@
 #include "mem.h"
 
 uint8_t memory[MEMORY_SIZE];
+uint16_t opcode;
 
 int init_mem() {
     //clear memory
@@ -26,6 +27,24 @@ int loadrom(char *rom){
 	fread(memory+0x200,sizeof(uint16_t),size,file);
 	printf("ROM successfuly loaded into memory\n");
 	return 0;
+}
+
+void execute(){
+	uint8_t x,y,kk,n;
+	uint16_t nnn;
+	uint32_t i, keyPressed;
+
+	opcode = memory[pc] << 8 | memory[pc+1];
+	pc+=2;
+	x = (opcode & 0x0F00) >> 8;
+	y = (opcode & 0x00F0) >> 4;
+	nnn = (opcode & 0x0FFF);
+	kk = (opcode & 0x00FF);
+	n = (opcode & 0x000F);
+	printf("Opcode: %x\n",opcode);
+	printf("Program Counter: %x \n",pc);
+	printf("I: %x \n",i);
+
 }
 
 int load_fontset(char *fontName){
