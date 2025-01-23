@@ -1,10 +1,16 @@
 #include <stdint.h>
 #include <stdio.h>
-#include<unistd.h>
+#include <unistd.h>
+#include <string.h>
 
 #define MEMORY_SIZE 4096
 #define FONT_WIDTH 5
 #define FONT_HEIGHT 16
+#define DISPLAY_WIDTH 64
+#define DISPLAY_HEIGHT 32
+
+extern uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
+extern int drawflag;
 
 extern uint8_t memory[MEMORY_SIZE];//4KB of memory
 
@@ -17,7 +23,7 @@ extern uint16_t sp;//stack pointer
 extern uint16_t opcode;
 
 int init_mem();
-int loadrom(char *rom);
+int loadrom(const char *rom);
 int load_fontset(char *fontName);
 void display_font();
 void print_mem();

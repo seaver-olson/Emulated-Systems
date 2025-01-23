@@ -4,7 +4,7 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *rdr = NULL;
 static SDL_Texture *txr = NULL;
 
-uint8_t display[DISPLAY_WIDTH*DISPLAY_HEIGHT];
+//uint8_t display[DISPLAY_WIDTH*DISPLAY_HEIGHT];
 int drawflag = 0;
 
 void display_init(){
@@ -26,21 +26,23 @@ void display_init(){
 
 void display_draw(){
 	if (drawflag){
-	uint32_t screen[DISPLAY_WIDTH*DISPLAY_HEIGHT];
-	memset(screen, 0, (DISPLAY_WIDTH*DISPLAY_HEIGHT)*4);//clear screen
-	for (int x=0;x<DISPLAY_WIDTH;x++){
-		for(int y=0; y<DISPLAY_HEIGHT;y++){
-			if (display[(x) + ((y) * 64)] == 1){
-				screen[(x) + ((y) * 64)] = UINT32_MAX;
+		uint32_t screen[DISPLAY_WIDTH*DISPLAY_HEIGHT];
+		memset(screen, 0, sizeof(screen));//clear screen
+		for (int x=0;x<DISPLAY_WIDTH;x++){
+			for(int y=0; y<DISPLAY_HEIGHT;y++){
+				if (display[(x) + ((y) * DISPLAY_WIDTH)] == 1){
+					screen[(x) + ((y) * DISPLAY_WIDTH)] = UINT32_MAX;
+				}
 			}
 		}
-	}
-	SDL_UpdateTexture(txr, NULL, screen, 64 * sizeof(uint32_t));
-	SDL_Rect position;
-	position.x = 0;
-	position.y = 0;
-	SDL_RenderCopy(rdr, txr, NULL, &position);
-	SDL_RenderPresent(rdr);
+		if (SDL_UpdateTexture(txr, NULL, screen, DISPLAY_WIDTH * sizeof(uint32_t) < 0)){
+			fprintf(stderr, "SDL_UpdateTexture Error: %s\n", SDL_GetError());
+		}
+		SDL_Rect position = {0,0};
+		if (SDL_RenderCopy(rdr, txr, NULL, &position)<0){
+			fprintf(stderr, "SDL_RenderCopy Error: %s\n", SDL_GetError());
+		}
+		SDL_RenderPresent(rdr);
 	}
 	drawflag = 0;
 }

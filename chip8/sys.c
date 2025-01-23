@@ -22,6 +22,8 @@ int main(int argc, char ** argv){
     timer_init();
     stack_init();
     display_init();
+    display_font();
+    /*
     while (!dead){
 	SDL_PollEvent(&event);
 	switch(event.type){
@@ -31,13 +33,14 @@ int main(int argc, char ** argv){
 		} case SDL_KEYDOWN: {
 			switch(event.key.keysym.sym){
 				case SDLK_ESCAPE:dead = 1;break;
-				
+
 			}
-		} 
-	} 
+		}
+	}
 	execute();
 	display_draw();
     }
+    */
     return 0;
 }
 
