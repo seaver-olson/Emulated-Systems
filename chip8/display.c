@@ -47,7 +47,7 @@ void display_draw(){
 				}
 			}
 		}
-		if (SDL_UpdateTexture(txr, NULL, screen, DISPLAY_WIDTH * sizeof(uint32_t) < 0)){
+		if (SDL_UpdateTexture(txr, NULL, screen, DISPLAY_WIDTH * sizeof(uint32_t)) < 0) {
 			fprintf(stderr, "SDL_UpdateTexture Error: %s\n", SDL_GetError());
 		}
 		SDL_Rect position = {0,0};
