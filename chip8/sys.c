@@ -10,10 +10,6 @@ int main(int argc, char ** argv){
 	printf("please select a rom first\n");
 	return 1;
     }
-    if (loadrom(argv[1]) != 0){
-	printf("Error: Please check the spelling of your rom file\n");
-	return 1;
-    }
     if (init_mem() == 1){
         printf("Error: exited memory init early, quitting interpreter\n");
         return 1;
@@ -22,8 +18,10 @@ int main(int argc, char ** argv){
     timer_init();
     stack_init();
     display_init();
-    display_font();
-    draw_sprite(10,5,0,5);
+    if (loadrom(argv[1]) != 0){
+	printf("Error: Please check the spelling of your rom file\n");
+	return 1;
+    }
     while (!dead){
 	SDL_PollEvent(&event);
 	switch(event.type){

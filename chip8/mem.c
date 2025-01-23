@@ -35,6 +35,11 @@ int init_mem() {
 //	return 1;
   //  }
     pc = 0x200;
+    memset(stack,0,16);
+    memset(memory,0,4096);
+    memset(v,0,16);
+    memset(display,0,2048);
+    memset(keyboard,0,16);
     memcpy(memory + 0x50, fontset, sizeof(fontset));
     return 0;
 }
@@ -79,10 +84,12 @@ int loadrom(const char *rom) {
         perror("Failed to read ROM file into memory");
         fclose(file);
         return -1;
-    }
-
+    } 
     fclose(file);
     printf("ROM successfully loaded into memory (%ld bytes)\n", size);
+    if (bytesRead != (size_t)size) {
+    fprintf(stderr, "Error: Read %zu bytes, expected %ld bytes\n", bytesRead, size);
+}
     return 0;
 }
 
@@ -99,7 +106,7 @@ void execute(){
 	nnn = (opcode & 0x0FFF);
 	kk = (opcode & 0x00FF);
 	n = (opcode & 0x000F);
-	printf("Opcode: %x\n",opcode);
+	printf("Opcode: 0x%x\n",opcode);
 	printf("Program Counter: %x \n",pc);
 	printf("I: %x \n",i);
 	switch (opcode & 0xF000){
