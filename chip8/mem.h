@@ -21,11 +21,12 @@ extern uint16_t stack[12];//12 levels of stack for nested calls
 extern uint8_t delay_timer;//deincremented at 60Hz(60 times per second)
 extern uint8_t sound_timer;//same as delay but gives a beep when not 0
 extern uint16_t sp;//stack pointer
+extern uint8_t v[16];
+extern uint8_t keyboard[16];
 extern uint16_t opcode;
 
 int init_mem();
 int loadrom(const char *rom);
-int load_fontset(char *fontName);
 void display_font();
 void print_mem();
 void write_block(uint16_t addr, uint8_t val);

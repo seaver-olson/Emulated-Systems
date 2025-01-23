@@ -3,6 +3,8 @@
 uint8_t memory[MEMORY_SIZE];
 uint16_t opcode;
 uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
+uint8_t keyboard[16];
+uint8_t v[16];
 
 uint8_t fontset[80] =
 {
@@ -28,12 +30,12 @@ int init_mem() {
     //clear memory
     for (int i = 0; i < MEMORY_SIZE; i++) memory[i] = 0;
     //load fontset
-    if (load_fontset("font/font1.bin") == 1){
-	printf("Error: Could not open font file\n");
-	return 1;
-    }
+    //if (load_fontset("font/font1.bin") == 1){
+//	printf("Error: Could not open font file\n");
+//	return 1;
+  //  }
     pc = 0x200;
-    load_fontset(fontset);
+    memcpy(memory + 0x50, fontset, sizeof(fontset));
     return 0;
 }
 
@@ -87,7 +89,8 @@ int loadrom(const char *rom) {
 void execute(){
 	uint8_t x,y,kk,n;
 	uint16_t nnn;
-	uint32_t i, keyPressed;
+	uint32_t i = 0; 
+	uint32_t keyPressed;
 
 	opcode = memory[pc] << 8 | memory[pc+1];
 	pc+=2;
@@ -119,13 +122,222 @@ void execute(){
 			++sp;
 			pc = nnn;
 			break;
+		case 0x3000: 
+			if (v[x] == kk) pc += 2;
+			break;
+			
+		//4xkk
+		case 0x4000:
+			if (v[x] != kk) pc+=2;
+			break;
+
+		//5xy0
+		case 0x5000:
+			if (v[x] == v[y]) pc+=2;
+			break;
+			
+		//6xkk
+		case 0x6000:
+			v[x] = kk;
+			break;
+			
+		//7xkk
+		case 0x7000:
+			v[x] += kk;
+			break;
+
+		//8xyn	
+		case 0x8000:
+			switch(n){
+				//8xy0
+				case 0x0000:
+				v[x] = v[y];
+				break;
+				//8xy1
+				case 0x0001:
+				v[x] |= v[y];
+				break;
+				//8xy2
+				case 0x0002:
+				v[x] &= v[y];
+				break;
+				//8xy3
+				case 0x0003:
+				v[x] ^= v[y];
+				break;
+				//8xy4
+				case 0x0004:{
+					int i;
+					i = (int)(v[x]) + (int)(v[y]);
+					if (i > 255)
+						v[0xF] = 1;
+					else
+						v[0xF] = 0;
+					v[x] = i & 0xFF;
+				}
+				break;
+			//8xy5
+			case 0x0005:
+				if (v[x]> v[y] ) v[0xF] = 1;
+				else v[0xF] = 0;
+				v[x] -= v[y];
+				break; 
+			//8xy6
+			case 0x0006:
+				v[0xF] = v[x] &1;
+				v[x] >>= 1;
+				break;
+			//8xy7
+			case 0x0007:
+				if(v[y] > v[x]) v[0xF] = 1;
+				else v[0xF] = 0;
+				v[x] = v[y] - v[x];
+				break;
+			//8xyE
+			case 0x000E:
+				v[0xF] = v[x] >> 7;
+				v[x] <<= 1;
+				break; 	
+
+			default: printf("Opcode error 8xxx -> %x\n",opcode );			
+			}
+			break;
+			
+			//9xy0
+			case 0x9000:
+			if(v[x] != v[y]) pc += 2;
+			break;
+
+			//Annn
+			case 0xA000:
+			i = nnn;
+			break;
+
+			//Bnnn
+			case 0xB000:
+			pc = (nnn) + v[0x0];
+			break;
+
+			//Cxkk
+			case 0xC000:
+			v[x] = (rand() % 0x100) & (kk);
+			break;
+
+			//Dxyn
+			case 0xD000:;
+			uint16_t x = v[x];
+			uint16_t y = v[y];
+			uint16_t height = n;
+			uint8_t pixel;
+
+			v[0xF] = 0;
+			for (int yline = 0; yline < height; yline++) {
+				pixel = memory[y + yline];
+				for(int xline = 0; xline < 8; xline++) {
+					if((pixel & (0x80 >> xline)) != 0) {
+						if(display[(x + xline + ((y + yline) * 64))] == 1){
+							v[0xF] = 1;                                   
+						}
+						display[x + xline + ((y + yline) * 64)] ^= 1;
+					}
+
+				}
+
+			}
+			drawflag = 1;
+			break;
+			
+			//Exkk
+			case 0xE000:
+			switch(kk){
+				//Ex9E
+				case 0x009E:
+				if(keyboard[v[x]] != 0)pc += 2;
+				break;						
+				//ExA1
+				case 0x00A1:
+				if(keyboard[v[x]]==0)pc+=2;
+				break;
+
+			}
+			break;
+
+			//Fxkk
+			case 0xF000:
+
+			switch(kk){
+				//Fx07
+				case 0x0007:
+
+				v[x] = delay_timer;
+				break;
+				//Fx0A
+				case 0x000A:
+				keyPressed = 0;
+				for(i=0;i<16;i++)
+				{
+					if (keyboard[i])
+					{
+						keyPressed = 1;
+						v[x] = i;
+					}
+				}
+	
+				if (keyPressed == 0)
+				{
+					pc -= 2;
+				}
+				
+				break;
+				//Fx15
+				case 0x0015:
+				delay_timer = v[x];
+				break;
+				//Fx18
+				case 0x0018:
+				sound_timer = v[x];
+				break;
+				//Fx1E
+				case 0x001E:
+				i = i + v[x];
+				break;
+				//Fx29
+				case 0x0029:
+				i = v[x] * 5;
+				break;
+				//Fx33
+				case 0x0033:{
+					int vX;
+					vX = v[x];
+					memory[i]     = (vX - (vX % 100)) / 100;
+					vX -= memory[i] * 100;
+					memory[i + 1] = (vX - (vX % 10)) / 10;
+					vX -= memory[i+1] * 10;
+					memory[i + 2] = vX;
+				}
+				break;
+
+				//Fx55
+				case 0x0055:
+
+				for (uint8_t j = 0; j <= i; ++j){
+					memory[j+ i] = v[j];
+				}
+				break;
+				//Fx65
+				case 0x0065:
+
+				for (uint8_t j = 0; j <= x; ++j){
+					v[j] = memory[i+ j];	
+				}
+				break;
+
+			}
+			break;	
+		default: printf("OPCODE ERROR -> %x \n",opcode); break;
 	}
 }
 
-int load_fontset(char *fontName){
-	memcpy(memory+0x50,fontName,80*sizeof(int8_t));
-	return 0;
-}
 
 void display_font(){
     for (int i = 0; i < FONT_HEIGHT; i++){
