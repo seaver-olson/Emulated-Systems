@@ -39,6 +39,13 @@ int main(int argc, char ** argv){
 	}
 	execute();
 	display_draw();
+	if(delay_timer > 0) --delay_timer;
+  	if(sound_timer > 0)
+  	{
+  		if(sound_timer == 1)
+     	 		printf("BEEP!\n");
+    		--sound_timer;
+ 	}  
     }
     return 0;
 }
