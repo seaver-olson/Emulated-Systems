@@ -13,6 +13,7 @@ extern uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
 extern int drawflag;
 
 extern uint8_t memory[MEMORY_SIZE];//4KB of memory
+extern uint8_t fontset[80];
 
 extern uint16_t index_reg;//index register
 extern uint16_t pc;//program counter

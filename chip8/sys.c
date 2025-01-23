@@ -23,7 +23,7 @@ int main(int argc, char ** argv){
     stack_init();
     display_init();
     display_font();
-    /*
+    draw_sprite(10,5,0,5);
     while (!dead){
 	SDL_PollEvent(&event);
 	switch(event.type){
@@ -40,7 +40,6 @@ int main(int argc, char ** argv){
 	execute();
 	display_draw();
     }
-    */
     return 0;
 }
 
