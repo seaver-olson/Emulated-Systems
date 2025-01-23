@@ -5,6 +5,10 @@ uint16_t opcode;
 uint8_t display[DISPLAY_WIDTH * DISPLAY_HEIGHT];
 uint8_t keyboard[16];
 uint8_t v[16];
+uint16_t i;
+uint16_t stack[16];
+uint16_t pc;
+uint16_t sp;
 
 uint8_t fontset[80] =
 {
@@ -96,9 +100,12 @@ int loadrom(const char *rom) {
 void execute(){
 	uint8_t x,y,kk,n;
 	uint16_t nnn;
-	uint32_t i = 0; 
+	i = 0; 
 	uint32_t keyPressed;
-
+	if (pc >= 4094) { 
+    		fprintf(stderr, "Program Counter out of bounds: 0x%03X\n", pc);
+	    	return ;
+	}
 	opcode = memory[pc] << 8 | memory[pc+1];
 	pc+=2;
 	x = (opcode & 0x0F00) >> 8;

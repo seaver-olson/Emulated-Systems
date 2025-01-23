@@ -1,6 +1,5 @@
 #include "timer.h"
 #include "display.h"
-#include "stack.h"
 
 int main(int argc, char ** argv){
     SDL_Event event;
@@ -16,7 +15,6 @@ int main(int argc, char ** argv){
     }
     printf("Memory initialized\n");
     timer_init();
-    stack_init();
     display_init();
     if (loadrom(argv[1]) != 0){
 	printf("Error: Please check the spelling of your rom file\n");

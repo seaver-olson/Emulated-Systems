@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -w -lSDL2
-files := mem.c display.c stack.c timer.c sys.c
+files := mem.c display.c timer.c sys.c
 objects := $(files:.c=.o)
 
 .PHONY: all clean
