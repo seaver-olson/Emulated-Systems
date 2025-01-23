@@ -4,8 +4,6 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *rdr = NULL;
 static SDL_Texture *txr = NULL;
 
-
-//uint8_t display[DISPLAY_WIDTH*DISPLAY_HEIGHT];
 int drawflag = 0;
 
 void display_init(){
@@ -24,18 +22,6 @@ void display_init(){
     printf("Display initialized\n");
 }
 
-void draw_sprite(uint8_t x, uint8_t y, uint8_t *sprite, uint8_t num_bytes) {
-    sprite = &fontset[(int) sprite];
-    for (int byte = 0; byte < num_bytes; byte++) {
-        for (int bit = 0; bit < 8; bit++) {
-            uint8_t pixel = (sprite[byte] >> (7 - bit)) & 1;
-            uint8_t pos_x = (x + bit) % DISPLAY_WIDTH;
-            uint8_t pos_y = (y + byte) % DISPLAY_HEIGHT;
-            display[pos_x + (pos_y * DISPLAY_WIDTH)] ^= pixel; // XOR the pixel
-        }
-    }
-    drawflag = 1; // Set the flag to redraw the screen
-}
 
 void display_draw(){
 	if (drawflag){
@@ -52,7 +38,7 @@ void display_draw(){
 			fprintf(stderr, "SDL_UpdateTexture Error: %s\n", SDL_GetError());
 		}
 		SDL_Rect position = {0,0};
-		if (SDL_RenderCopy(rdr, txr, NULL, &position)<0){
+		if (SDL_RenderCopy(rdr, txr, NULL, &position)!=0){
 			fprintf(stderr, "SDL_RenderCopy Error: %s\n", SDL_GetError());
 		}
 		SDL_RenderPresent(rdr);
